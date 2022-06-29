@@ -4,8 +4,8 @@
  * ***************************************************/
 
 'use strict';
-
-var fs = require('fs');
+var bGround = require('fcc-express-bground');
+var myApp = require('./myApp');
 var express = require('express');
 var app = express();
 
@@ -22,7 +22,7 @@ if (!process.env.DISABLE_XORIGIN) {
   });
 }
 
-app.use('/public', express.static(process.cwd() + '/public'));
+/*app.use('/public', express.static(process.cwd() + '/public'));
 
 app.route('/_api/package.json')
   .get(function(req, res, next) {
@@ -51,10 +51,11 @@ app.use(function(err, req, res, next) {
       .type('txt')
       .send(err.message || 'SERVER ERROR');
   }  
-})
+})*/
 
 //Listen on port set in environment variable or default to 3000
-const listener = app.listen(process.env.PORT || 3000, function () {
-  console.log("Node.js listening on port " + listener.address().port);
+var port = process.env.PORT || 3000;
+bGround.setupBackgroundApp(app, myApp, __dirname).listen(process.env.PORT || 3000, function () {
+  console.log("Node.js listening  on port '+ port + '...'" );
 });
 
